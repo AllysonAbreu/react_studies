@@ -1,15 +1,12 @@
-import { Hobbies } from "@/components/Hobbies";
-import { Imagem } from "@/components/Imagem";
-import { MeuNome } from "@/components/MeuNome";
+import Link from "next/link";
 
-const Page = () => (
-  <div>
-    <MeuNome name={"Allyson"} age={29} birthDate={new Date(1997, 0, 8)}/>
-    <Hobbies/>
-    Gosto de:
-    <Imagem/>
-  </div>
-)
+const Page = ()  => (
+  <>
+    <Link className="underline" href="/nivel-0/allyson">
+      Página do Allyson
+    </Link>
+  </>
+);
 
 export default Page;
 

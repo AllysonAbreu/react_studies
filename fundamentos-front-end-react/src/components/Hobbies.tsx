@@ -5,7 +5,7 @@ export const Hobbies = () => {
     const [hobbyPreferido, ...outrosHobbies] = hobbies;
 
     return (
-        <>
+        <div>
             <p>Estes são os meus hobbies:</p>
             <ul className="list-disc pl-10">
                 <li className="font-bold">{hobbyPreferido}</li>
@@ -13,6 +13,6 @@ export const Hobbies = () => {
                     return <li key={`hobby-${i}`}>{outroHobby}</li>
                 })}
             </ul>
-        </>
+        </div>
     );
 };
