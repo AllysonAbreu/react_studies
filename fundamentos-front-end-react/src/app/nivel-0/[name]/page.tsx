@@ -1,12 +1,12 @@
-import { Hobbies } from "@/components/Hobbies";
-import { Imagem } from "@/components/Imagem";
-import { MeuNome } from "@/components/MeuNome";
 import Link from "next/link";
+
+import { Hobbies } from "@/components/aula-2/Hobbies";
+import { Imagem } from "@/components/aula-2/Imagem";
+import { MeuNome } from "@/components/aula-2/MeuNome";
 
 type PageProps = {
   params: Promise<{ name: string }>;
 };
-
 
 const Page = async ({ params }: PageProps)  => {
   

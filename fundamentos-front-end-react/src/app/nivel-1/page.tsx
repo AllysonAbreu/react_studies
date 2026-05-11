@@ -1,5 +1,4 @@
-import { Contador } from "@/components/Contador";
-import Link from "next/link";
+import { Contador } from "@/components/aula-2/Contador";
 
 const Page = ()  => (
   <div>

@@ -1,5 +1,5 @@
-import { ContadorGlobal } from "@/components/ContadorGlobal";
-import { ValorContadorGlobal } from "@/components/ValorContadorGlobal";
+import { ContadorGlobal } from "@/components/aula-2/ContadorGlobal";
+import { ValorContadorGlobal } from "@/components/aula-2/ValorContadorGlobal";
 
 const Page = ()  => (
   <div>
