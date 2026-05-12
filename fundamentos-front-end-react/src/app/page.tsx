@@ -21,6 +21,9 @@ export default function Home() {
       <Link className="underline" href="/nivel-3/community-libraries">
         Aula 3 - Community Libraries
       </Link>
+      <Link className="underline" href="/nivel-4/login">
+        Aula 4 - Autenticação
+      </Link>
     </div>
   );
 }
