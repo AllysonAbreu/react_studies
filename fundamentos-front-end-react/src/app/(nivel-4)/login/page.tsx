@@ -3,29 +3,39 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/lib/aula-4/AuthContext'
+import { useAuth } from '@/context/aula-4/AuthContext'
 import { ButtonCustom } from '@/components/aula-4/ButtonCustom'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+
   const { login } = useAuth()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    setError('');
+
+    if(!email || !password) {
+      setError('Preencha o formulário para continuar');
+      return;
+    }
+
     try {
       await login(email, password)
       router.push('/dashboard')
     } catch (err) {
-      alert('Login falhou')
-      console.error(err)
+      setError((err as Error).message);
     }
   }
 
   return (
       <div className="grid gap-y-4 p-4 border border-white p-8 rounded">
         <h1 className="text-3xl font-bold">Login</h1>
+        { error && <p className='p-2 bg-red-900 rounded text-white font-bold'>{error}</p> }
         <form onSubmit={handleSubmit} className="grid gap-y-2 w-100">
           <input className="p-2 border border-white rounded" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
           <input className="p-2 border border-white rounded" value={password} onChange={e => setPassword(e.target.value)} placeholder="Senha" type="password" />

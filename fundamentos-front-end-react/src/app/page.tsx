@@ -22,7 +22,13 @@ export default function Home() {
         Aula 3 - Community Libraries
       </Link>
       <Link className="underline" href="/login">
-        Aula 4 - Autenticação
+        Aula 4 - Autenticação e Autorização
+      </Link>
+      <Link className="underline" href="/test-server">
+        Aula 4 - Testando Server Components
+      </Link>
+      <Link className="underline" href="/test-client">
+        Aula 4 - Testando Client Components
       </Link>
     </div>
   );

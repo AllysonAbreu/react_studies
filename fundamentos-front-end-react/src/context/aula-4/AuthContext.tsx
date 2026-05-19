@@ -1,16 +1,19 @@
 // context/AuthContext.tsx
 'use client'
 
+import { decodeJwt } from 'jose'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/navigation'
 import { createContext, useState, useContext, useEffect } from 'react'
 
-type User = {
+export type User = {
   email: string
   role: 'user' | 'admin'
 }
 
 type AuthContextProps = {
-  user: User | null
   token: string | null
+  user: User | null
   login: (email: string, password: string) => Promise<void>
   logout: () => void
 }
@@ -18,22 +21,33 @@ type AuthContextProps = {
 const AuthContext = createContext({} as AuthContextProps)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null)
   const [token, setToken] = useState<string | null>(null)
+  const [user, setUser] = useState<User | null>(null)
+
+  const route = useRouter()
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('token')
-    const savedUser = localStorage.getItem('user')
-    if (savedToken && savedUser) {
+    const savedToken = Cookies.get('token')
+
+    if (savedToken) {
+      
+      const {email, role}: User = decodeJwt(savedToken) as User;
+      console.log('Token encontrado:', savedToken)
+      console.log('Usuário do token:', {email, role})
+
       setToken(savedToken)
-      setUser(JSON.parse(savedUser))
+      setUser({email, role})
     }
   }, [])
 
+  // context/AuthContext.tsx
   const login = async (email: string, password: string) => {
     const res = await fetch('/api/auth', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
 
     const data = await res.json()
@@ -41,8 +55,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (res.ok) {
       setToken(data.token)
       setUser(data.user)
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
     } else {
       throw new Error(data.message)
     }
@@ -51,8 +63,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     setToken(null)
     setUser(null)
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+        
+    Cookies.remove('token')
+    route.push('/login')
   }
 
   return (

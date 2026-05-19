@@ -1,4 +1,4 @@
-import { AuthProvider } from "@/lib/aula-4/AuthContext";
+import { AuthProvider } from "@/context/aula-4/AuthContext";
 
 export default function Layout({
   children,

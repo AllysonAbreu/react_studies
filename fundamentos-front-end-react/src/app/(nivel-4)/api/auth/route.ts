@@ -1,17 +1,35 @@
 // app/api/auth/route.ts
 import { NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
+import { User } from '@/context/aula-4/AuthContext'
+import { SignJWT } from 'jose'
 
+const alg = process.env.JWT_ALGORITHM!
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
+
+const fakeUser = ['admin@example.com', 'user@example.com']
 
 export async function POST(req: Request) {
   const { email, password } = await req.json()
 
-  // Simulação simples
-  if (email === 'admin@example.com' && password === '123456') {
-    const user = { email, role: 'admin' }
-    const token = jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: '1h' })
+  if (fakeUser.includes(email) && password === '123456') {
+    const user: User = { email, role: email.split('@')[0] }
 
-    return NextResponse.json({ token, user })
+    const token = await new SignJWT(user)
+      .setProtectedHeader({ alg })
+      .setIssuedAt()
+      .setExpirationTime('1h')
+      .sign(secret)
+
+    const response = NextResponse.json({ user })
+
+    response.cookies.set('token', token, {
+      secure: true,
+      path: '/',
+      maxAge: 60 * 60, // 1 hora
+      // maxAge: 10 // 10 segundos para teste de expiração
+    })
+
+    return response
   }
 
   return NextResponse.json({ message: 'Credenciais inválidas' }, { status: 401 })
