@@ -3,9 +3,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/dist/client/link";
 
+const PAST_TITLE = "Tasks App";
 
 export const metadata: Metadata = {
-  title: "Tasks App",
+  title: {
+    default: PAST_TITLE,
+    template: `${PAST_TITLE} | %s`,
+  }
 };
 
 export default function RootLayout({
