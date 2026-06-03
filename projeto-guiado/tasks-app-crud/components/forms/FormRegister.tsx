@@ -2,9 +2,9 @@
 
 import { FC, useActionState, useState } from "react";
 
-import { FormInputText } from "./FormInputText";
-import { FormButton } from "./FormButton";
-import { FormError } from "./FormError";
+import { FormInputText } from "../FormInputText";
+import { FormButton } from "../FormButton";
+import { FormError } from "../FormError";
 
 type FormRegisterProps = {
   action: ( _: string, formData: FormData) => Promise<string>;
